@@ -1,4 +1,4 @@
-FROM debian:bullseye-slim
+FROM debian:buster-slim
 
 ENV RUBY_MAJOR 2.6
 ENV RUBY_VERSION 2.6.5
