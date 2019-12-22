@@ -5,15 +5,20 @@ ENV RUBY_VERSION 2.6.5
 ENV RUBY_DOWNLOAD_SHA256 d5d6da717fd48524596f9b78ac5a2eeb9691753da5c06923a6c31190abe01a62
 
 RUN set -eux; \
+	\
 	apt-get update; \
 	apt-get -y dist-upgrade; \
 	apt-get install -y --no-install-recommends \
+		build-essential \
 		bzip2 \
 		ca-certificates \
 		libffi-dev \
 		libgmp-dev \
+		libjemalloc-dev \
 		libssl-dev \
 		libyaml-dev \
+		liblzma-dev \
+		patch \
 		procps \
 		zlib1g-dev \
 	; \
@@ -50,7 +55,6 @@ RUN set -eux; \
 		ruby \
 		wget \
 		xz-utils \
-		libjemalloc-dev \
 	; \
 	rm -rf /var/lib/apt/lists/*; \
 	\
@@ -116,5 +120,11 @@ ENV PATH $GEM_HOME/bin:$PATH
 # adjust permissions of a few directories for running "gem install" as an arbitrary user
 RUN mkdir -p "$GEM_HOME" && chmod 777 "$GEM_HOME"
 # (BUNDLE_PATH = GEM_HOME, no need to mkdir/chown both)
+
+# update system gems and test
+RUN gem update --system; \
+	bundle --version; \
+	gem env; \
+	bundle config
 
 CMD [ "irb" ]
