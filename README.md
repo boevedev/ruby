@@ -1,2 +1,2 @@
 # Ruby
-Docker Ruby image
+Docker image Ruby compiled with jemaloc for better memory usage 
